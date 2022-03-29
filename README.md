@@ -1,6 +1,7 @@
 ## My Settings
 ### Terminal
 - [iTerm2](https://iterm2.com/)
+- [Fig](https://fig.io)
 
 ### Fonts
 - [Fira Code](https://github.com/tonsky/FiraCode)
