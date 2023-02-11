@@ -1,5 +1,5 @@
 # Fig pre block. Keep at the top of this file.
-. "$HOME/.fig/shell/zshrc.pre.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -20,6 +20,8 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+export PATH=$PATH:$HOME/.cargo/env
+
 # ZSH Variables
 export ZSH="/Users/eli/.oh-my-zsh"
 export ZSH_THEME="powerlevel10k/powerlevel10k"
@@ -33,12 +35,19 @@ else
 fi
 
 # Aliases
-alias ls="exa --icons"
-alias cat="bat --style=auto"
+#commands
+alias ls="exa --icons" #command ls not working, I dont know why.
+alias cat="bat --style=auto" #command cat not working, I dont know why.
+alias ps="procs --theme light"
+alias find="fd"
+alias du="dust -D"
+alias top="ytop"
 alias zshrc="lvim ~/.zshrc"
 alias zs="source ~/.zshrc"
-alias dev="/Users/eli/Developer/react && ls"
-
+alias tokei="tokei ./" #just note: Tokei display statistics about you code.
+#shortcuts
+alias devr="/Users/eli/Developer/react && exa --icons"
+alias devn="/Users/eli/Developer/node && exa --icons"
 #Alias for (https://github.com/dlvhdr/gh-dash)
 alias dash="gh dash"
 
@@ -55,6 +64,7 @@ alias dng='dotnet nuget'
 alias db='dotnet build'
 
 ## External storage drivers aliases
+alias nas="/Volumes/Bird && exa --icons"
 #alias workspace="/Volumes/Samsung_T5/workspace"
 #alias ssd="/Volumes/Samsung_T5/workspace"
 #alias hd="/Volumes/HD\ Seagate"
@@ -152,4 +162,4 @@ _dotnet_zsh_complete()
 compdef _dotnet_zsh_complete dotnet
 
 # Fig post block. Keep at the bottom of this file.
-. "$HOME/.fig/shell/zshrc.post.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
