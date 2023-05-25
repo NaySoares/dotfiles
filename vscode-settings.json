@@ -1,12 +1,8 @@
 {
-    // Workbench
-    "workbench.colorTheme": "Dracula",
-    "workbench.iconTheme": "material-icon-theme",
+  "workbench.iconTheme": "material-icon-theme",
     "workbench.editor.labelFormat": "short",
     "workbench.startupEditor": "newUntitledFile",
     "workbench.editor.untitled.hint": "hidden",
-
-    "polacode.backgroundColor": "#6633CC",
 
     // Editor settings
     "editor.wordWrap": "on",
@@ -25,7 +21,7 @@
     "editor.semanticHighlighting.enabled": true,
     "editor.bracketPairColorization.enabled": true,
     "editor.codeActionsOnSave": {
-    //"source.fixAll": true,
+    "source.fixAll": true,
     "source.fixAll.eslint": true
   },
     
@@ -46,7 +42,6 @@
 
     // Extensions
     "extensions.ignoreRecommendations": true,
-    "diffEditor.ignoreTrimWhitespace": false,
     "material-icon-theme.folders.associations": {
       "domain": "core",
       "infra": "app",
@@ -68,8 +63,6 @@
       "tsconfig.json": "tune",
       ".lintstagedrc.json": "tune"
     },
-    "polacode.transparentBackground": true,
-    "polacode.shadow": "none",
 
     "gitlens.defaultDateFormat": null,
     "gitlens.hovers.currentLine.over": "line",
@@ -77,7 +70,7 @@
     "git.confirmSync": false,
 
     // Anime
-    "background.enabled": true,
+    "background.enabled": false,
     "background.useDefault": false,
     "background.useFront": true,
     "background.customImages": [
@@ -93,7 +86,7 @@
       "height": "40%",
       "z-index": "9999",
       "background-size": "contain",
-      "opacity": 0.6,
+      "opacity": 0.6
     },
 
     "files.exclude": {
@@ -101,7 +94,7 @@
       "**/.svn": true,
       "**/.hg": true,
       "**/CVS": true,
-      "**/.DS_Store": true,
+      "**/.DS_Store": true
       // "**/node_modules": true
     },
 
@@ -110,17 +103,42 @@
       "editor.defaultFormatter": "vscode.typescript-language-features"
     },
     "[typescriptreact]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
+      "editor.defaultFormatter": "vscode.typescript-language-features"
     },
     "[typescript]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
+      "editor.defaultFormatter": "vscode.typescript-language-features"
     },
-    "bracket-pair-colorizer-2.depreciation-notice": false,
     "[json]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
+      "editor.defaultFormatter": "vscode.json-language-features"
     },
     "terminal.integrated.env.osx": {
       "FIG_NEW_SESSION": "1"
     },
     "editor.accessibilitySupport": "off",
+    "cSpell.userWords": [
+      "Elienai",
+      "rocketseat",
+      "Soares"
+    ],
+    "github.copilot.enable": {
+      "*": true,
+      "plaintext": false,
+      "markdown": false,
+      "scminput": false,
+      "yaml": true
+    },
+    "window.zoomLevel": 1,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "githubPullRequests.fileListLayout": "tree",
+    "errorLens.excludeBySource": [
+      "json(0)",
+      "eslint(react/no-unescaped-entities)",
+      "ts(2769)",
+      "ts(2349)",
+      "ts(2395)",
+      "ts(1005)"
+    ],
+    "workbench.colorTheme": "Aura Soft Dark",
+    "git.autofetch": true,
+    "githubPullRequests.pullBranch": "never"
 }
