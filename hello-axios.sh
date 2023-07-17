@@ -29,23 +29,121 @@ else
 fi
 
 #--Packages essential for all systems--#
-echo "Downloading and installing packages"
-#sudo $pkg -v install curl wget git
+echo "Please before continue, make sure you have copied your ssh key to github, if you haven't, please do it now"
+echo "Press enter to continue"
+read enter
 
+echo "Installing curl wget git"
+sudo apt-get update
+sudo $pkg -y -v install curl wget git dirmngr gpg gawk build-essential
 
-#--Packages for Ubuntu--#
+echo "Setting up git"
+git config --global user.name "Elienai Soares"
+git config --global user.email "elienay.soares07@gmail.com"
 
-#--Packages for Fedora--#
-
-#--Packages for MacOS--#
-
-#--Packages for Windows--#
 
 #--Packages for development--#
+#-----------Docker-----------#
+echo "Installing Docker" 
+echo "Removing old versions"
+  for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get remove $pkg; done
+
+echo "Installing new version"
+  sudo apt-get install ca-certificates curl gnupg;
+
+  sudo install -m 0755 -d /etc/apt/keyrings
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+  echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+echo "Installing Docker Engine and Docker Compose"
+  sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+echo "Adding user to docker group"
+  sudo groupadd docker
+  sudo usermod -aG docker $USER
+
+echo "Installing Docker Completion"
+
+#-----------ASDF-----------#
+echo "Install ASDF"
+  cd /tmp
+  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.12.0
+
+  . "$HOME/.asdf/asdf.sh"
+  . "$HOME/.asdf/completions/asdf.bash"
+
+#-----------Node-----------#
+echo "Installing Node"
+  asdf plugin-add nodejs
+  asdf install nodejs 18.16.1
+  asdf global nodejs 18.16.1
+
+#-----------Yarn-----------#
+echo "Installing Yarn"
+  asdf plugin-add yarn
+  asdf install yarn 1.22.10
+  asdf global yarn 1.22.10
+
+#-----------Rust-----------#
+echo "Installing Rust"
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  echo "export PATH=$HOME/.cargo/bin:$PATH" >> ~/.zshrc
+  apt-get install cargo
+  
+  echo "Install Rust Shell commands"
+  sudo apt -y install bat exa fd-find
+  cargo install procs du-dust tokei ytop
+
+  echo "alias cat=bat" >> ~/.zshrc
+  echo "alias ls=exa --icons" >> ~/.zshrc
+  echo "alias fd=fd --extension rs | as-tree" >> ~/.zshrc
+
+#-----------Java-----------#
+echo "Installing Java"
+  asdf plugin-add java
+  asdf install java 17.0.1
+  asdf install java 8.0.312-zulu
+  asdf global java 8.0.312-zulu
+
+#-----------Python-----------#
+echo "Installing Python"
+  asdf plugin-add python
+  asdf install python 3.10.0
+  asdf global python 3.10.0
+  python3 -m pip install --upgrade pip
+
+#-----------VSCode-----------#
+echo "Installing VSCode"
+  sudo apt-get install wget gpg
+  wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+  sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+  sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+  rm -f packages.microsoft.gpg
+
+  sudo apt install apt-transport-https
+  sudo apt update
+  sudo apt install code
+
+  cd ~/dotfiles
+  mv vscode-settings.js settings.json
+  rm -f ~/.config/Code/User/settings.json
+  cp settings.json ~/.config/Code/User/
+
+#-----------LunarVim-----------#
+echo "Installing LunarVim"
+  LV_BRANCH='release-1.3/neovim-0.9' bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh)
+
+  cd ~/dotfiles
+  rm -f ~/.config/lvim/config.lua
+  cp config.lua ~/.config/lvim/
 
 
 #--Packages for design--#
-## Ubuntu
 echo "Installing ZSH"
   sudo apt-get install zsh
 
@@ -78,5 +176,16 @@ echo "Installing Spaceship theme"
 
   ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 
-## Command temporary, change this for the archive on the repo dotfiles
-  echo "ZSH_THEME='spaceship'" >> ~/.zshrc
+echo "Copying ZSH settings"
+  cd ~/dotfiles
+  rm -f ~/.zshrc
+  mv zshrc-settings .zshrc
+  cp .zshrc ~/.zshrc
+
+
+
+echo "Adding paths to ZSH"
+#---------ASDF---------#
+  echo ". '$HOME/.asdf/asdf.sh'" >> ~/.zshrc
+  echo "fpath=(${ASDF_DIR}/completions $fpath)" >> ~/.zshrc
+  echo "autoload -Uz compinit && compinit" >> ~/.zshrc
