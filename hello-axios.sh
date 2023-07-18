@@ -1,5 +1,6 @@
 #! /bin/sh
 PKG="apt"
+USE_CONFIG="false"
 
 echo "Hello Axios, starting the setup for your new machine"
 #-----------------------#
@@ -33,7 +34,18 @@ echo "Please before continue, make sure you have copied your ssh key to github, 
 echo "Press enter to continue"
 read enter
 
-echo "Installing curl wget git"
+echo "Do you have a zsh config file? (y/n)"
+read answer
+
+if [ $answer == "y" ]
+then
+    echo "Please, put your config file in the dotfiles folder and rename it to .zshrc"
+    echo "Press enter to continue"
+    read enter
+    USE_CONFIG="true"
+fi
+
+echo "Installing curl, wget, git, and more..."
 sudo apt-get update
 sudo $pkg -y -v install curl wget git dirmngr gpg gawk build-essential
 
@@ -74,8 +86,8 @@ echo "Install ASDF"
   cd /tmp
   git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.12.0
 
-  . "$HOME/.asdf/asdf.sh"
-  . "$HOME/.asdf/completions/asdf.bash"
+  #. "$HOME/.asdf/asdf.sh"
+  #. "$HOME/.asdf/completions/asdf.bash"
 
 #-----------Node-----------#
 echo "Installing Node"
@@ -92,16 +104,21 @@ echo "Installing Yarn"
 #-----------Rust-----------#
 echo "Installing Rust"
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-  echo "export PATH=$HOME/.cargo/bin:$PATH" >> ~/.zshrc
-  apt-get install cargo
+  if [ $USE_CONFIG == "false" ]
+  then
+    echo "export PATH=$HOME/.cargo/bin:$PATH" >> ~/.zshrc
+  fi
   
   echo "Install Rust Shell commands"
   sudo apt -y install bat exa fd-find
   cargo install procs du-dust tokei ytop
 
-  echo "alias cat=bat" >> ~/.zshrc
-  echo "alias ls=exa --icons" >> ~/.zshrc
-  echo "alias fd=fd --extension rs | as-tree" >> ~/.zshrc
+  if [ $USE_CONFIG == "false" ]
+  then
+    echo "alias cat=bat" >> ~/.zshrc
+    echo "alias ls=exa --icons" >> ~/.zshrc
+    echo "alias fd=fd -c always" >> ~/.zshrc
+  fi
 
 #-----------Java-----------#
 echo "Installing Java"
@@ -179,13 +196,14 @@ echo "Installing Spaceship theme"
 echo "Copying ZSH settings"
   cd ~/dotfiles
   rm -f ~/.zshrc
-  mv zshrc-settings .zshrc
   cp .zshrc ~/.zshrc
-
 
 
 echo "Adding paths to ZSH"
 #---------ASDF---------#
-  echo ". '$HOME/.asdf/asdf.sh'" >> ~/.zshrc
-  echo "fpath=(${ASDF_DIR}/completions $fpath)" >> ~/.zshrc
-  echo "autoload -Uz compinit && compinit" >> ~/.zshrc
+  if [ $USE_CONFIG == "false" ]
+  then
+    echo ". '$HOME/.asdf/asdf.sh'" >> ~/.zshrc
+    echo "fpath=(${ASDF_DIR}/completions $fpath)" >> ~/.zshrc
+    echo "autoload -Uz compinit && compinit" >> ~/.zshrc
+  fi

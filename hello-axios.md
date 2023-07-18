@@ -14,9 +14,9 @@
 - [x] ZSH
 - [ ] Oh my zsh
 - [ ] PowerLevel10k
-- [ ] Exa
-- [ ] Fd
-- [ ] LunarVIM
+- [x] Exa
+- [x] Fd
+- [x] LunarVIM
 - [x] Alias custom
 - [x] Git
 
