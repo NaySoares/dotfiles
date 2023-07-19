@@ -22,9 +22,11 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 export PATH=$PATH:$HOME/.cargo/env
 
+export GPG_TTY=$(tty)
+
 # ZSH Variables
-export ZSH="/Users/eli/.oh-my-zsh"
-export ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH="/Users/eli/.oh-my-zsh"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 ## Editor default
 # Preferred editor for local and remote sessions
@@ -35,11 +37,8 @@ else
 fi
 
 # Aliases
-#commands
-alias ls="exa --icons" #command ls not working, I dont know why.
-alias cat="bat --style=auto" #command cat not working, I dont know why.
 alias ps="procs --theme light"
-alias find="fd"
+alias find="fd -c always"
 alias du="dust -D"
 alias top="ytop"
 alias zshrc="lvim ~/.zshrc"
@@ -47,9 +46,16 @@ alias zs="source ~/.zshrc"
 alias tokei="tokei ./" #just note: Tokei display statistics about you code.
 #shortcuts
 alias devr="/Users/eli/Developer/react && exa --icons"
-alias devn="/Users/eli/Developer/node && exa --icons"
+alias dev="/Users/eli/Developer && exa --icons"
 #Alias for (https://github.com/dlvhdr/gh-dash)
 alias dash="gh dash"
+
+#Alias for git
+alias init="commitizen init cz-conventional-changelog --save-dev --save-exact"
+alias vaicavalo="git push origin HEAD:refs/for/master"
+
+#Alias for execute scraping
+alias just="/Users/eli/Developer/node/scraping-node && npm start"
 
 # Aliases for dotnet
 alias dn='dotnet new'
@@ -64,7 +70,7 @@ alias dng='dotnet nuget'
 alias db='dotnet build'
 
 ## External storage drivers aliases
-alias nas="/Volumes/Bird && exa --icons"
+alias nas="/Volumes/midia && exa --icons"
 #alias workspace="/Volumes/Samsung_T5/workspace"
 #alias ssd="/Volumes/Samsung_T5/workspace"
 #alias hd="/Volumes/HD\ Seagate"
@@ -87,8 +93,9 @@ SPACESHIP_PROMPT_ORDER=(
   char          # Prompt character
 )
 SPACESHIP_USER_SHOW=always
+SPACESHIP_TIME_SHOW=true
 SPACESHIP_PROMPT_ADD_NEWLINE=false
-SPACESHIP_CHAR_SYMBOL="❯"
+SPACESHIP_CHAR_SYMBOL="❯❯"
 SPACESHIP_CHAR_SUFFIX=" "
 
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
@@ -114,31 +121,32 @@ zinit light-mode for \
 ### End of Zinit's installer chunk
 
 # Plugins ZSH
-plugins=(git dotnet)
+plugins=(git dotnet kubectl asdf)
 zinit light zdharma/fast-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-completions
 
 source $ZSH/oh-my-zsh.sh
 
-plugins=(asdf)
 source ~/.asdf/asdf.sh
+fpath=(${ASDF_DIR}/completions $fpath)
+autoload -Uz compinit && compinit
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export PATH=$HOME/.local/bin:$HOME/.cargo/bin:$PATH
 # >>> conda initialize >>>
-# !! Contents within this block are managed by ‘conda init’ !!
-__conda_setup=”$(‘/Users/xyz/miniforge3/bin/conda’ ‘shell.zsh’ ‘hook’ 2> /dev/null)”
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/opt/homebrew/Caskroom/miniforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
- eval “$__conda_setup”
+    eval "$__conda_setup"
 else
- if [ -f “/Users/xyz/miniforge3/etc/profile.d/conda.sh” ]; then
- . “/Users/xyz/miniforge3/etc/profile.d/conda.sh”
- else
- export PATH=”/Users/xyz/miniforge3/bin:$PATH”
- fi
+    if [ -f "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
+        . "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/homebrew/Caskroom/miniforge/base/bin:$PATH"
+    fi
 fi
 unset __conda_setup
 # <<< conda initialize <<<
@@ -161,5 +169,19 @@ _dotnet_zsh_complete()
 
 compdef _dotnet_zsh_complete dotnet
 
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+export PATH=$HOME/bin:$PATH
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+#For something reason these aliases only working set on end of document.
+#don't removed it, only in the case conflict with another config.
+if [ -x "$(command -v exa)" ]; then
+  alias ls="exa --icons"
+  alias la="exa --long --all --group"
+fi
+
+alias cat="bat --style=auto"
