@@ -184,4 +184,6 @@ if [ -x "$(command -v exa)" ]; then
   alias la="exa --long --all --group"
 fi
 
-alias cat="bat --style=auto"
+if [ -x "$(command -v bat)" ]; then
+  alias cat="bat --style=auto"
+fi
