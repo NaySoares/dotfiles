@@ -128,6 +128,15 @@ zinit light zsh-users/zsh-completions
 
 source $ZSH/oh-my-zsh.sh
 
+#-------Autocomplete plugin:---------#
+# Execute this command below to install:
+# git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git
+# !! commands with compinit can generate some errors, stay alert.
+# if you change the path of zsh-autocomplete, change the path below.
+source $HOME/.zsh-autocomplete/zsh-autocomplete.plugin.zsh 
+#-------Autocomplete plugin finish---------#
+
+# ASDF using compinit, stay alert for errors. Read the line 131.
 source ~/.asdf/asdf.sh
 fpath=(${ASDF_DIR}/completions $fpath)
 autoload -Uz compinit && compinit
