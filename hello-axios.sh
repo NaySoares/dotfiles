@@ -34,6 +34,15 @@ echo "Please before continue, make sure you have copied your ssh key to github, 
 echo "Press enter to continue"
 read enter
 
+if [ $system == 3 ]
+then
+  echo "installing mac-cleanup"
+  brew tap fwartner/tap
+  brew install fwartner/tap/mac-cleanup
+  
+  echo "Mac-cleanup installed"
+fi
+
 echo "Do you have a zsh config file? (y/n)"
 read answer
 
@@ -43,6 +52,12 @@ then
     echo "Press enter to continue"
     read enter
     USE_CONFIG="true"
+elif [ $answer == "n" ]
+then
+    echo "Ok, I do it for you."
+else
+    echo "Invalid option, exiting..."
+    exit 1
 fi
 
 echo "Installing curl, wget, git, and more..."

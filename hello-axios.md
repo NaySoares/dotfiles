@@ -2,6 +2,7 @@
 - [x] ASDF
 - [x] Docker
 - [x] Docker Compose
+- [x] Mac-CleanUp
 
 ### **Languages**
 - [x] JS
