@@ -7,12 +7,12 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Oh-my-zsh installation.
+#----Oh-my-zsh installation.----#
 export PATH=/opt/homebrew/bin:$PATH
 export PATH=/usr/local/opt/node@14/bin:$PATH
 export PATH=/usr/local/share/npm/bin:$PATH
 
-# Android Studio
+#----Android Studio----#
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-11.0.11.jdk/Contents/Home
 export ANDROID_HOME=~/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
@@ -20,15 +20,17 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+#----Rust----#
 export PATH=$PATH:$HOME/.cargo/env
 
+# I don't know even if it's necessary
 export GPG_TTY=$(tty)
 
-# ZSH Variables
+#----ZSH Variables----#
 ZSH="/Users/eli/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-## Editor default
+#----Editor default----#
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='lvim'
@@ -36,23 +38,23 @@ else
   export EDITOR='lvim'
 fi
 
-# Aliases
+#----Aliases----#
+# Most of these aliases are commands rewritten in Rust.
 alias ps="procs --theme light"
 alias find="fd -c always"
 alias du="dust -D"
 alias top="ytop"
 alias zshrc="lvim ~/.zshrc"
 alias zs="source ~/.zshrc"
-alias tokei="tokei ./" #just note: Tokei display statistics about you code.
-#shortcuts
-alias devr="/Users/eli/Developer/react && exa --icons"
-alias dev="/Users/eli/Developer && exa --icons"
-#Alias for (https://github.com/dlvhdr/gh-dash)
-alias dash="gh dash"
-
-#Alias for git
+alias tokei="tokei ./" # Tokei display statistics about you code.
+alias dash="gh dash" #(https://github.com/dlvhdr/gh-dash)
 alias init="commitizen init cz-conventional-changelog --save-dev --save-exact"
 alias vaicavalo="git push origin HEAD:refs/for/master"
+
+# Shortcuts
+alias devr="/Users/eli/Developer/react && exa --icons"
+alias dev="/Users/eli/Developer && exa --icons"
+alias nas="/Volumes/midia && exa --icons"
 
 #Alias for execute scraping
 alias just="/Users/eli/Developer/node/scraping-node && npm start"
@@ -69,16 +71,11 @@ alias dp='dotnet pack'
 alias dng='dotnet nuget'
 alias db='dotnet build'
 
-## External storage drivers aliases
-alias nas="/Volumes/midia && exa --icons"
-#alias workspace="/Volumes/Samsung_T5/workspace"
-#alias ssd="/Volumes/Samsung_T5/workspace"
-#alias hd="/Volumes/HD\ Seagate"
-
-## M1 stuff
+#----M1 stuff----#
 #alias mbrew="arch -x86_64 /usr/local/bin/brew"
 
-#Spaceship
+#----Spaceship----#
+# Currently the theme in use is powerlevel10k, so this is not necessary.
 SPACESHIP_PROMPT_ORDER=(
   user          # Username section
   dir           # Current directory section
@@ -98,6 +95,7 @@ SPACESHIP_PROMPT_ADD_NEWLINE=false
 SPACESHIP_CHAR_SYMBOL="❯❯"
 SPACESHIP_CHAR_SUFFIX=" "
 
+#----Zinit----#
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
     print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
     command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
@@ -118,9 +116,7 @@ zinit light-mode for \
     zinit-zsh/z-a-patch-dl \
     zinit-zsh/z-a-bin-gem-node
 
-### End of Zinit's installer chunk
-
-# Plugins ZSH
+#----Plugins----#
 plugins=(git dotnet kubectl asdf)
 zinit light zdharma/fast-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
@@ -129,38 +125,16 @@ zinit light zsh-users/zsh-completions
 source $ZSH/oh-my-zsh.sh
 
 #-------Autocomplete plugin:---------#
-# Execute this command below to install:
-# git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git
-# !! commands with compinit can generate some errors, stay alert.
-# if you change the path of zsh-autocomplete, change the path below.
-source $HOME/.zsh-autocomplete/zsh-autocomplete.plugin.zsh 
+
+# !! On MacOS use Fig (https://fig.io), it's better.
+# !! commands with compinit and compdef may generate some errors, stay alert.
+# Execute this command below to install and uncomment the line 133.
+# git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git "$HOME/.zsh-autocomplete"
+#source $HOME/.zsh-autocomplete/zsh-autocomplete.plugin.zsh 
+
 #-------Autocomplete plugin finish---------#
 
-# ASDF using compinit, stay alert for errors. Read the line 131.
-source ~/.asdf/asdf.sh
-fpath=(${ASDF_DIR}/completions $fpath)
-autoload -Uz compinit && compinit
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-export PATH=$HOME/.local/bin:$HOME/.cargo/bin:$PATH
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/homebrew/Caskroom/miniforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
-        . "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh"
-    else
-        export PATH="/opt/homebrew/Caskroom/miniforge/base/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
-#dotnet command
+#----Dotnet autocomplete----#
 _dotnet_zsh_complete() 
 {
   local completions=("$(dotnet complete "$words")")
@@ -178,6 +152,31 @@ _dotnet_zsh_complete()
 
 compdef _dotnet_zsh_complete dotnet
 
+#----ASDF----#
+source ~/.asdf/asdf.sh
+fpath=(${ASDF_DIR}/completions $fpath)
+autoload -Uz compinit && compinit
+
+#----powerlevel10k----#
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+export PATH=$HOME/.local/bin:$HOME/.cargo/bin:$PATH
+
+#----Conda----#
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/opt/homebrew/Caskroom/miniforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
+        . "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/homebrew/Caskroom/miniforge/base/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+
+#----Yarn----#
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 # Fig post block. Keep at the bottom of this file.
@@ -186,8 +185,8 @@ export PATH=$HOME/bin:$PATH
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-#For something reason these aliases only working set on end of document.
-#don't removed it, only in the case conflict with another config.
+# For something reason these aliases only working set on end of document.
+# don't removed it, only in the case conflict with another config.
 if [ -x "$(command -v exa)" ]; then
   alias ls="exa --icons"
   alias la="exa --long --all --group"
