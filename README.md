@@ -18,7 +18,8 @@
 - [Shell commands Rust](https://zaiste.net/posts/shell-commands-rust/)
 
 ### Themes
-- Aura
+- Serendipity (current)
+- Aura 
 - Dracula
 - Moonlight II
 - TokioNight
